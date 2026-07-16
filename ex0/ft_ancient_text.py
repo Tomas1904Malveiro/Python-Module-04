@@ -1,5 +1,4 @@
 import sys
-from typing import IO
 
 
 def main():
@@ -12,7 +11,7 @@ def main():
     print(f"Accessing file '{file_name}'")
 
     try:
-        file: IO = open(file_name, "r")
+        file = open(file_name, "r")
     except OSError as err:
         print(f"Error opening file '{file_name}': {err}")
         return
@@ -21,8 +20,8 @@ def main():
     print(file.read())
     print("---")
 
-    print(f"File '{file_name}' closed.")
     file.close()
+    print(f"File '{file_name}' closed.")
 
 
 if __name__ == "__main__":

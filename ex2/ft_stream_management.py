@@ -3,7 +3,7 @@ import sys
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: ft_archive_creation.py <file>")
+        print("Usage: ft_stream_management.py <file>")
         return
 
     file_name = sys.argv[1]
@@ -14,7 +14,8 @@ def main():
     try:
         file = open(file_name, "r")
     except OSError as error:
-        print(f"Error opening file '{file_name}': {error}")
+        print(f"[STDERR] Error opening file '{file_name}': {error}",
+              file=sys.stderr)
         return
 
     print("---")
@@ -34,12 +35,18 @@ def main():
     if len(content) > 0 and content[-1] != "\n":
         transformed = transformed + "#"
 
+    print("")
     print("Transform data:")
     print("---")
     print(transformed)
     print("---")
 
-    new_file = input("Enter new file name (or empty): ")
+    sys.stdout.write("Enter new file name (or empty): ")
+    sys.stdout.flush()
+    new_file = sys.stdin.readline()
+
+    if new_file[-1:] == "\n":
+        new_file = new_file[:-1]
 
     if new_file == "":
         print("Not saving data.")
@@ -50,7 +57,9 @@ def main():
     try:
         out_file = open(new_file, "w")
     except OSError as error:
-        print(f"Error opening file '{new_file}': {error}")
+        print(f"[STDERR] Error opening file '{new_file}': {error}",
+              file=sys.stderr)
+        print("Data not saved.")
         return
 
     out_file.write(transformed)
